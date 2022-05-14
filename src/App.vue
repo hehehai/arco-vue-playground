@@ -91,22 +91,21 @@ watchEffect(() => history.replaceState({}, '', `#${store.serialize()}`))
 </script>
 
 <template>
-  <div v-if="!loading" class="antialiased">
+  <div class="antialiased">
     <Header :store="store" />
-    <Repl
-      ref="repl"
-      :store="store"
-      show-compile-output
-      auto-resize
-      :sfc-options="sfcOptions"
-      :clear-console="false"
-      :show-import-map="store.userOptions.value.showHidden || false"
-      @keydown="handleKeydown"
-    />
+    <a-spin :loading="loading" tip="Loading ..." class="w-full">
+      <Repl
+        ref="repl"
+        :store="store"
+        show-compile-output
+        auto-resize
+        :sfc-options="sfcOptions"
+        :clear-console="false"
+        :show-import-map="store.userOptions.value.showHidden || false"
+        @keydown="handleKeydown"
+      />
+    </a-spin>
   </div>
-  <template v-else>
-    <div v-loading="{ text: 'Loading...' }" class="loading" />
-  </template>
 </template>
 
 <style>
