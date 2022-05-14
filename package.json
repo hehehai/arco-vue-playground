@@ -1,10 +1,9 @@
 {
-  "name": "element-plus-playground",
+  "name": "arco-vue-playground",
   "version": "1.9.0",
-  "description": "Element Plus Playground",
+  "description": "Arco Vue Playground",
   "keywords": [
-    "element",
-    "element-plus",
+    "arco-vue",
     "playground",
     "repl"
   ],

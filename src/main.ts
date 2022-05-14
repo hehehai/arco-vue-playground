@@ -1,4 +1,6 @@
 import { createApp } from 'vue'
+import ArcoVueIcon from '@arco-design/web-vue/es/icon'
+
 import '@vue/repl/style.css'
 import 'uno.css'
 
@@ -9,4 +11,8 @@ window.VUE_DEVTOOLS_CONFIG = {
   defaultSelectedAppId: 'repl',
 }
 
-createApp(App).mount('#app')
+const app = createApp(App)
+
+app.use(ArcoVueIcon)
+
+app.mount('#app')

@@ -1,7 +1,8 @@
 <script setup>
 import App from './App.vue'
-import { setupElementPlus } from './element-plus.js'
-setupElementPlus()
+import { arcoInstall } from './arco-install.js'
+
+arcoInstall()
 </script>
 
 <template>

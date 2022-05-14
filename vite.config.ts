@@ -7,7 +7,7 @@ import Components from 'unplugin-vue-components/vite'
 import { ArcoResolver } from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
 import Inspect from 'vite-plugin-inspect'
-// import Mkcert from 'vite-plugin-mkcert'
+import Mkcert from 'vite-plugin-mkcert'
 import { getPackageInfo } from 'local-pkg'
 import pkg from './package.json'
 
@@ -45,7 +45,7 @@ export default defineConfig(async () => {
       Unocss({
         presets: [presetUno()],
       }),
-      // Mkcert(),
+      Mkcert(),
       Inspect(),
     ],
   }

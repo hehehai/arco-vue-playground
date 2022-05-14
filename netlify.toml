@@ -1,0 +1,18 @@
+[build.environment]
+# bypass npm auto install
+NODE_VERSION = "16"
+NPM_FLAGS = "--version"
+
+[build]
+command = "npx pnpm i --store=node_modules/.pnpm-store && npx pnpm run build"
+publish = "dist"
+
+[[redirects]]
+from = "/*"
+status = 200
+to = "/index.html"
+
+[[headers]]
+for = "/manifest.webmanifest"
+[headers.values]
+Content-Type = "application/manifest+json"

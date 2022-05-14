@@ -2,15 +2,10 @@
 import { Repl } from '@vue/repl'
 import { Message } from '@arco-design/web-vue'
 import Header from '@/components/Header.vue'
-import {
-  USER_IMPORT_MAP,
-  type UserOptions,
-  useStore,
-} from '@/composables/store'
+import { type UserOptions, useStore } from '@/composables/store'
 import type { BuiltInParserName } from 'prettier'
 import type { SFCOptions } from '@vue/repl'
 import type { Fn } from '@vueuse/core'
-import type { ImportMap } from '@/utils/import-map'
 
 let loading = $ref(true)
 
@@ -23,28 +18,10 @@ const sfcOptions: SFCOptions = {
 
 const initialUserOptions: UserOptions = {}
 
-const pr = new URLSearchParams(location.search).get('pr')
-if (pr) {
-  initialUserOptions.showHidden = true
-  initialUserOptions.styleSource = `https://preview-${pr}-element-plus.surge.sh/bundle/index.css`
-}
-
 const store = useStore({
   serializedState: location.hash.slice(1),
   userOptions: initialUserOptions,
 })
-
-if (pr) {
-  const map: ImportMap = {
-    imports: {
-      'element-plus': `https://preview-${pr}-element-plus.surge.sh/bundle/index.full.min.mjs`,
-      'element-plus/': 'unsupported',
-    },
-  }
-  store.state.files[USER_IMPORT_MAP].code = JSON.stringify(map, undefined, 2)
-  const url = `${location.origin}${location.pathname}#${store.serialize()}`
-  history.replaceState({}, '', url)
-}
 
 store.init().then(() => (loading = false))
 
@@ -57,7 +34,7 @@ const handleKeydown = (evt: KeyboardEvent) => {
     return
   }
 
-  // TODO: format 使用 f 按钮触发
+  // NOTE: ctrl or alt + shift + f => format code
   if ((evt.altKey || evt.ctrlKey) && evt.shiftKey && evt.code === 'KeyF') {
     evt.preventDefault()
     formatCode()
@@ -148,15 +125,7 @@ body {
 
 .dark .vue-repl,
 .vue-repl {
-  --color-branding: #409eff !important;
-}
-
-button {
-  border: none;
-  outline: none;
-  cursor: pointer;
-  margin: 0;
-  background-color: transparent;
+  --color-branding: rgb(var(--primary-6)) !important;
 }
 
 .loading {

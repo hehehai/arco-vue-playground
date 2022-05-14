@@ -4,8 +4,7 @@ import ArcoVue from '@arco-design/web-vue'
 let installed = false
 await loadStyle()
 
-export function setupElementPlus() {
-  console.log('run')
+export function arcoInstall() {
   if (installed) return
   const instance = getCurrentInstance()
   instance.appContext.app.use(ArcoVue)

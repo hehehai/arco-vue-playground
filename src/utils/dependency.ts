@@ -4,31 +4,31 @@ import type { Versions } from '@/composables/store'
 import type { Ref } from 'vue'
 import type { ImportMap } from '@/utils/import-map'
 
-export const genUnpkgLink = (
+export const getSkyPack = (
   pkg: string,
-  version: string | undefined,
-  path: string
+  version: string | undefined = '',
+  path = ''
 ) => {
   version = version ? `@${version}` : ''
-  return `https://unpkg.com/${pkg}${version}${path}`
+  return `https://cdn.skypack.dev/${pkg}${version}${path}`
 }
 
 export const genJsdelivrLink = (
   pkg: string,
   version: string | undefined,
-  path: string
+  path = ''
 ) => {
   version = version ? `@${version}` : ''
   return `https://cdn.jsdelivr.net/npm/${pkg}${version}${path}`
 }
 
 export const genVueLink = (version: string) => {
-  const compilerSfc = genUnpkgLink(
+  const compilerSfc = getSkyPack(
     '@vue/compiler-sfc',
     version,
     '/dist/compiler-sfc.esm-browser.js'
   )
-  const runtimeDom = genUnpkgLink(
+  const runtimeDom = getSkyPack(
     '@vue/runtime-dom',
     version,
     '/dist/runtime-dom.esm-browser.js'
@@ -41,13 +41,13 @@ export const genVueLink = (version: string) => {
 
 export const genImportMap = ({
   vue,
-  elementPlus,
+  arco,
 }: Partial<Versions> = {}): ImportMap => {
   interface Dependency {
     pkg?: string
     version?: string
-    path: string
-    source?: 'unpkg' | 'jsdelivr'
+    path?: string
+    source?: 'skyPack' | 'jsdelivr'
   }
   const deps: Record<string, Dependency> = {
     vue: {
@@ -63,23 +63,89 @@ export const genImportMap = ({
     },
     '@arco-design/web-vue': {
       pkg: '@arco-design/web-vue',
-      version: elementPlus,
+      version: arco,
       path: '/es/index.js',
       source: 'jsdelivr',
     },
     '@arco-design/web-vue/': {
       pkg: '@arco-design/web-vue',
-      version: elementPlus,
+      version: arco,
       path: '/',
       source: 'jsdelivr',
     },
   }
 
+  const arcoDesignWebVueDeps: Record<string, Dependency> = {
+    'resize-observer-polyfill': {
+      pkg: 'resize-observer-polyfill',
+      source: 'skyPack',
+    },
+    'compute-scroll-into-view': {
+      pkg: 'compute-scroll-into-view',
+      source: 'skyPack',
+    },
+    'scroll-into-view-if-needed': {
+      pkg: 'scroll-into-view-if-needed',
+      source: 'skyPack',
+    },
+    'b-tween': {
+      pkg: 'b-tween',
+      source: 'skyPack',
+    },
+    'b-validate': {
+      pkg: 'b-validate',
+      source: 'skyPack',
+    },
+    'number-precision': {
+      pkg: 'number-precision',
+      source: 'skyPack',
+    },
+    dayjs: {
+      pkg: 'dayjs',
+      source: 'skyPack',
+    },
+    'dayjs/plugin/customParseFormat': {
+      pkg: 'dayjs',
+      path: '/plugin/customParseFormat.js',
+      source: 'skyPack',
+    },
+    'dayjs/plugin/isBetween': {
+      pkg: 'dayjs',
+      path: '/plugin/isBetween.js',
+      source: 'skyPack',
+    },
+    'dayjs/plugin/weekOfYear': {
+      pkg: 'dayjs',
+      path: '/plugin/weekOfYear.js',
+      source: 'skyPack',
+    },
+    'dayjs/plugin/advancedFormat': {
+      pkg: 'dayjs',
+      path: '/plugin/advancedFormat.js',
+      source: 'skyPack',
+    },
+    'dayjs/plugin/weekYear': {
+      pkg: 'dayjs',
+      path: '/plugin/weekYear.js',
+      source: 'skyPack',
+    },
+    'dayjs/plugin/quarterOfYear': {
+      pkg: 'dayjs',
+      path: '/plugin/quarterOfYear.js',
+      source: 'skyPack',
+    },
+    'dayjs/locale/zh-cn': {
+      pkg: 'dayjs',
+      path: '/locale/zh-cn.js',
+      source: 'skyPack',
+    },
+  }
+
   return {
     imports: Object.fromEntries(
-      Object.entries(deps).map(([key, dep]) => [
+      Object.entries({ ...deps, ...arcoDesignWebVueDeps }).map(([key, dep]) => [
         key,
-        (dep.source === 'unpkg' ? genUnpkgLink : genJsdelivrLink)(
+        (dep.source === 'skyPack' ? getSkyPack : genJsdelivrLink)(
           dep.pkg ?? key,
           dep.version,
           dep.path
@@ -107,10 +173,9 @@ export const getSupportedVueVersions = () => {
   )
 }
 
-export const getSupportedEpVersions = (nightly: MaybeRef<boolean>) => {
+export const getSupportedEpVersions = () => {
   const versions = $(getVersions('@arco-design/web-vue'))
   return computed(() => {
-    if (unref(nightly)) return versions
-    return versions.filter((version) => compare(version, '1.1.0-beta.18', '>='))
+    return versions.filter((version) => compare(version, '2.0.0', '>='))
   })
 }

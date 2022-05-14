@@ -1,19 +1,19 @@
 import { File, type Store, type StoreState, compileFile } from '@vue/repl'
 import { Message } from '@arco-design/web-vue'
 import { atou, utoa } from '@/utils/encode'
-import { genImportMap, genUnpkgLink, genVueLink } from '@/utils/dependency'
+import { genImportMap, genVueLink, getSkyPack } from '@/utils/dependency'
 import { type ImportMap, mergeImportMap } from '@/utils/import-map'
 import { IS_DEV } from '@/constants'
 import mainCode from '../template/main.vue?raw'
 import welcomeCode from '../template/welcome.vue?raw'
-import elementPlusCode from '../template/element-plus.js?raw'
+import arcoInstallCode from '../template/arco-install.js?raw'
 
 export interface Initial {
   serializedState?: string
   versions?: Versions
   userOptions?: UserOptions
 }
-export type VersionKey = 'vue' | 'elementPlus'
+export type VersionKey = 'vue' | 'arco'
 export type Versions = Record<VersionKey, string>
 export interface UserOptions {
   styleSource?: string
@@ -25,13 +25,13 @@ export type SerializeState = Record<string, string> & {
 
 const MAIN_FILE = 'PlaygroundMain.vue'
 const APP_FILE = 'App.vue'
-const ELEMENT_PLUS_FILE = 'element-plus.js'
+const ARCO_INSTALL = 'arco-install.js'
 const IMPORT_MAP = 'import-map.json'
 export const USER_IMPORT_MAP = 'import_map.json'
 
 export const useStore = (initial: Initial) => {
   const versions = reactive(
-    initial.versions || { vue: 'latest', elementPlus: 'latest' }
+    initial.versions || { vue: 'latest', arco: 'latest' }
   )
 
   let compiler = $(shallowRef<typeof import('vue/compiler-sfc')>())
@@ -90,28 +90,28 @@ export const useStore = (initial: Initial) => {
     { immediate: true, deep: true }
   )
   watch(
-    () => versions.elementPlus,
+    () => versions.arco,
     (version) => {
       const file = new File(
-        ELEMENT_PLUS_FILE,
-        generateElementPlusCode(version, userOptions.styleSource).trim(),
+        ARCO_INSTALL,
+        generateArcoInstallCode(version, userOptions.styleSource).trim(),
         hideFile
       )
-      state.files[ELEMENT_PLUS_FILE] = file
+      state.files[ARCO_INSTALL] = file
       compileFile(store, file)
     },
     { immediate: true }
   )
 
-  function generateElementPlusCode(version: string, styleSource?: string) {
+  function generateArcoInstallCode(version: string, styleSource?: string) {
     const style = styleSource
       ? styleSource.replace('#VERSION#', version)
-      : genUnpkgLink(
+      : getSkyPack(
           nightly ? '@arco-design/web-vue' : '@arco-design/web-vue',
           version,
           '/es/index.css'
         )
-    return elementPlusCode.replace('#STYLE#', style)
+    return arcoInstallCode.replace('#STYLE#', style)
   }
 
   async function setVueVersion(version: string) {
@@ -192,8 +192,8 @@ export const useStore = (initial: Initial) => {
   }
 
   function deleteFile(filename: string) {
-    if (filename === ELEMENT_PLUS_FILE) {
-      Message.warning('You cannot remove it, because Element Plus requires it.')
+    if (filename === ARCO_INSTALL) {
+      Message.warning('You cannot remove it, because Arco Vue requires it.')
       return
     }
     if (confirm(`Are you sure you want to delete ${filename}?`)) {
@@ -210,8 +210,8 @@ export const useStore = (initial: Initial) => {
 
   async function setVersion(key: VersionKey, version: string) {
     switch (key) {
-      case 'elementPlus':
-        setElementPlusVersion(version)
+      case 'arco':
+        setArcoVueVersion(version)
         break
       case 'vue':
         await setVueVersion(version)
@@ -219,8 +219,8 @@ export const useStore = (initial: Initial) => {
     }
   }
 
-  function setElementPlusVersion(version: string) {
-    versions.elementPlus = version
+  function setArcoVueVersion(version: string) {
+    versions.arco = version
   }
 
   return {
