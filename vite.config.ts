@@ -35,11 +35,11 @@ export default defineConfig(async () => {
       }),
       AutoImport({
         imports: ['vue', '@vueuse/core'],
-        resolvers: [ArcoResolver()],
+        resolvers: [ArcoResolver({ resolveIcons: true })],
         dts: path.resolve(pathSrc, 'auto-imports.d.ts'),
       }),
       Components({
-        resolvers: [ArcoResolver()],
+        resolvers: [ArcoResolver({ resolveIcons: true })],
         dts: path.resolve(pathSrc, 'components.d.ts'),
       }),
       Unocss({

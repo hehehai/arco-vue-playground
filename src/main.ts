@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import ArcoVueIcon from '@arco-design/web-vue/es/icon'
+import '@arco-design/web-vue/es/message/style/index.css'
 
 import '@vue/repl/style.css'
 import 'uno.css'
@@ -12,7 +12,5 @@ window.VUE_DEVTOOLS_CONFIG = {
 }
 
 const app = createApp(App)
-
-app.use(ArcoVueIcon)
 
 app.mount('#app')
