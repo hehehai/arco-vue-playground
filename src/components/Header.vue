@@ -65,22 +65,37 @@ async function copyLink() {
         </a-select>
       </a-space>
 
-      <a-button type="text" size="small" class="share" @click="copyLink">
-        <template #icon>
-          <icon-share-alt />
-        </template>
-      </a-button>
+      <a-tooltip content="Arco Vue 官网">
+        <a-link class="link-icon" href="https://arco.design/" target="_blank">
+          <img alt="arco vue" src="../assets/arco-icon.svg" />
+        </a-link>
+      </a-tooltip>
 
-      <a-button type="text" size="small" title="View on GitHub" class="github">
-        <template #icon>
-          <a
-            href="https://github.com/hehehai/arco-vue-playground"
-            target="_blank"
-          >
-            <icon-github />
-          </a>
-        </template>
-      </a-button>
+      <a-tooltip content="Vue 官网">
+        <a-link
+          class="link-icon"
+          href="https://staging-cn.vuejs.org/"
+          target="_blank"
+        >
+          <img alt="vue" src="../assets/vue-icon.svg" />
+        </a-link>
+      </a-tooltip>
+
+      <a-tooltip content="分享代码">
+        <a-link class="link-icon" @click.prevent="copyLink">
+          <icon-share-alt />
+        </a-link>
+      </a-tooltip>
+
+      <a-tooltip content="查看源码">
+        <a-link
+          class="link-icon"
+          href="https://github.com/hehehai/arco-vue-playground"
+          target="_blank"
+        >
+          <icon-github />
+        </a-link>
+      </a-tooltip>
     </a-space>
   </nav>
 </template>
@@ -100,5 +115,20 @@ async function copyLink() {
 
 .header-nav .logo {
   width: 160px;
+}
+
+.link-icon {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 26px;
+  width: 26px;
+  border-radius: var(--border-radius-small);
+  color: rgba(var(--primary-6));
+}
+
+.link-icon img {
+  width: 20px;
+  height: 20px;
 }
 </style>

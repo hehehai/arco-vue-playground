@@ -5,12 +5,15 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    AButton: typeof import('@arco-design/web-vue')['Button']
+    ALink: typeof import('@arco-design/web-vue')['Link']
     AOption: typeof import('@arco-design/web-vue')['Option']
     ASelect: typeof import('@arco-design/web-vue')['Select']
     ASpace: typeof import('@arco-design/web-vue')['Space']
     ASpin: typeof import('@arco-design/web-vue')['Spin']
+    ATooltip: typeof import('@arco-design/web-vue')['Tooltip']
     Header: typeof import('./components/Header.vue')['default']
+    IconGithub: typeof import('@arco-design/web-vue/es/icon')['IconGithub']
+    IconShareAlt: typeof import('@arco-design/web-vue/es/icon')['IconShareAlt']
   }
 }
 
