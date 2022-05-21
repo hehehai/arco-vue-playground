@@ -35,7 +35,6 @@ export const useStore = (initial: Initial) => {
   )
 
   let compiler = $(shallowRef<typeof import('vue/compiler-sfc')>())
-  const [nightly, toggleNightly] = $(useToggle(false))
   let userOptions = $ref<UserOptions>(initial.userOptions || {})
   const hideFile = $computed(() => !IS_DEV && !userOptions.showHidden)
 
@@ -106,11 +105,7 @@ export const useStore = (initial: Initial) => {
   function generateArcoInstallCode(version: string, styleSource?: string) {
     const style = styleSource
       ? styleSource.replace('#VERSION#', version)
-      : getSkyPack(
-          nightly ? '@arco-design/web-vue' : '@arco-design/web-vue',
-          version,
-          '/es/index.css'
-        )
+      : getSkyPack('@arco-design/web-vue', version, '/es/index.css')
     return arcoInstallCode.replace('#STYLE#', style)
   }
 
@@ -227,13 +222,11 @@ export const useStore = (initial: Initial) => {
     ...store,
 
     versions,
-    nightly: $$(nightly),
     userOptions: $$(userOptions),
 
     init,
     serialize,
     setVersion,
-    toggleNightly,
   }
 }
 

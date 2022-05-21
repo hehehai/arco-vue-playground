@@ -4,6 +4,8 @@ import {
   getSupportedEpVersions,
   getSupportedVueVersions,
 } from '../utils/dependency'
+import LogoArco from '../assets/logo-arco-design.svg'
+import LogoArcoDark from '../assets/logo-arco-design-dark.svg'
 import type { ComputedRef } from 'vue'
 import type { ReplStore, VersionKey } from '@/composables/store'
 
@@ -16,6 +18,26 @@ interface Version {
   published: ComputedRef<string[]>
   active: string
 }
+
+const appDark = useDark({
+  selector: 'body',
+  attribute: 'arco-theme',
+  valueDark: 'dark',
+  valueLight: 'light',
+  storageKey: 'arco-theme',
+})
+const replDark = useDark()
+const toggleAppTheme = useToggle(appDark)
+const toggleReplTheme = useToggle(replDark)
+
+const toggleTheme = () => {
+  toggleAppTheme()
+  toggleReplTheme()
+}
+
+const logoSVG = computed(() => {
+  return appDark.value ? LogoArcoDark : LogoArco
+})
 
 const versions = reactive<Record<VersionKey, Version>>({
   arco: {
@@ -45,13 +67,13 @@ async function copyLink() {
 <template>
   <nav class="header-nav">
     <a-space class="left">
-      <img class="logo" alt="logo" src="../assets/logo.svg" />
+      <img class="logo" alt="logo" :src="logoSVG" />
       <div class="title">Playground</div>
     </a-space>
 
     <a-space class="links">
       <a-space v-for="(v, key) of versions" :key="key">
-        <span>{{ v.text }} Version:</span>
+        <span class="label">{{ v.text }} Version:</span>
         <a-select
           :model-value="v.active"
           class="!w-30"
@@ -78,6 +100,13 @@ async function copyLink() {
           target="_blank"
         >
           <img alt="vue" src="../assets/vue-icon.svg" />
+        </a-link>
+      </a-tooltip>
+
+      <a-tooltip content="明暗切换">
+        <a-link class="link-icon" @click.prevent="toggleTheme()">
+          <icon-moon-fill v-if="appDark" />
+          <icon-sun-fill v-else />
         </a-link>
       </a-tooltip>
 
@@ -115,6 +144,11 @@ async function copyLink() {
 
 .header-nav .logo {
   width: 160px;
+}
+
+.header-nav .title,
+.links .label {
+  color: var(--color-text-1);
 }
 
 .link-icon {

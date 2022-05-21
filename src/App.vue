@@ -125,6 +125,7 @@ body {
 .dark .vue-repl,
 .vue-repl {
   --color-branding: rgb(var(--primary-6)) !important;
+  --color-branding-dark: rgb(var(--primary-6)) !important;
 }
 
 .loading {

@@ -13,7 +13,9 @@ declare module '@vue/runtime-core' {
     ATooltip: typeof import('@arco-design/web-vue')['Tooltip']
     Header: typeof import('./components/Header.vue')['default']
     IconGithub: typeof import('@arco-design/web-vue/es/icon')['IconGithub']
+    IconMoonFill: typeof import('@arco-design/web-vue/es/icon')['IconMoonFill']
     IconShareAlt: typeof import('@arco-design/web-vue/es/icon')['IconShareAlt']
+    IconSunFill: typeof import('@arco-design/web-vue/es/icon')['IconSunFill']
   }
 }
 
