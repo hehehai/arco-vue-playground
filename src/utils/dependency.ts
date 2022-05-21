@@ -67,6 +67,12 @@ export const genImportMap = ({
       path: '/es/index.js',
       source: 'jsdelivr',
     },
+    '@arco-design/web-vue/es/icon': {
+      pkg: '@arco-design/web-vue',
+      version: arco,
+      path: '/es/icon/index.js',
+      source: 'jsdelivr',
+    },
     '@arco-design/web-vue/': {
       pkg: '@arco-design/web-vue',
       version: arco,
