@@ -6,10 +6,25 @@
 
 🥳 [look here](https://arco-vue-playground.netlify.app)
 
-> ‼️ arco-vue version support >= 2.27.0
+## supports
+
+- vue3
+- options and setup api
+- typescript
+- auto import arco and arco-icon
+- code prettier
+
+> ‼️ arco-vue version support >= 2.28.0
+
+tip: repl support prettier code use keyboard [mac] `Control + Shift + f`, [win] `Ctrl + Shift + f`
 
 ## project
 
 - [vue3](https://staging-cn.vuejs.org/)
-- [@vue/repl](https://github.com/vuejs/repl)
 - [arco-design](https://arco.design/)
+
+## thx 🥰
+
+- [@vue/repl](https://github.com/vuejs/repl)
+- [vue-use](https://github.com/vueuse/vueuse)
+- [element-plus-playground](https://github.com/element-plus/element-plus-playground)
