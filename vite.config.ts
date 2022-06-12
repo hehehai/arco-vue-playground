@@ -13,7 +13,7 @@ import pkg from './package.json'
 
 const pathSrc = path.resolve(__dirname, 'src')
 
-export default defineConfig(async () => {
+export default defineConfig(async ({ mode }) => {
   const repl = await getPackageInfo('@vue/repl')
   return {
     resolve: {
@@ -45,7 +45,7 @@ export default defineConfig(async () => {
       Unocss({
         presets: [presetUno()],
       }),
-      Mkcert(),
+      mode === 'production' ? Mkcert() : undefined,
       Inspect(),
     ],
   }
