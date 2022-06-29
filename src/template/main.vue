@@ -1,8 +1,16 @@
-<script setup>
+<script lang="ts">
+import { defineComponent } from 'vue'
 import App from './App.vue'
 import { arcoInstall } from './arco-install.js'
 
-arcoInstall()
+export default defineComponent({
+  components: {
+    App
+  },
+  setup() {
+    arcoInstall()
+  }
+})
 </script>
 
 <template>
