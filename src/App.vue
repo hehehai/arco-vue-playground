@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Repl } from '@vue/repl'
-import { Message, Notification } from '@arco-design/web-vue'
+import { Message } from '@arco-design/web-vue'
 import Header from '@/components/Header.vue'
-import { type UserOptions, useStore } from '@/composables/store'
+import { type UserOptions, type Versions, useStore } from '@/composables/store'
 import type { BuiltInParserName } from 'prettier'
 import type { SFCOptions } from '@vue/repl'
 import type { Fn } from '@vueuse/core'
@@ -18,18 +18,30 @@ const sfcOptions: SFCOptions = {
 
 const initialUserOptions: UserOptions = {}
 
+const params = new URLSearchParams(location.search)
+
+const initialVersions: Versions = {
+  arco: params.get('arco') || 'latest',
+  vue: params.get('vue') || 'latest',
+}
+
 const store = useStore({
   serializedState: location.hash.slice(1),
   userOptions: initialUserOptions,
+  versions: initialVersions,
 })
 
 const tipMsg = () => {
   Message.info({
-    content: '服务和资源均在国外(免费的)，国内网络预计延迟2~3s(仅首次加载)，请等待一下🤪',
+    content:
+      '服务和资源均在国外(免费的)，国内网络预计延迟2~3s(仅首次加载)，请等待一下🤪',
   })
 }
 
-store.init().then(() => { loading = false; tipMsg() })
+store.init().then(() => {
+  loading = false
+  tipMsg()
+})
 
 // eslint-disable-next-line no-console
 console.log('Store:', store)

@@ -52,14 +52,16 @@ const versions = reactive<Record<VersionKey, Version>>({
   },
 })
 
-async function setVersion(key: VersionKey, v: string) {
+async function setVersion(key: VersionKey, v: any) {
   versions[key].active = `loading...`
   await store.setVersion(key, v)
   versions[key].active = v
 }
 
 async function copyLink() {
-  await navigator.clipboard.writeText(location.href)
+  const loc = document.location
+  const link = `${loc.origin}?arco=${store.versions.arco}&vue=${store.versions.vue}${loc.hash}`
+  await navigator.clipboard.writeText(link)
   Message.success('Sharable URL has been copied to clipboard.')
 }
 </script>

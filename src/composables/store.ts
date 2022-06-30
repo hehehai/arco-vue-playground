@@ -45,7 +45,7 @@ export const useStore = (initial: Initial) => {
     activeFile: files[APP_FILE],
     errors: [],
     vueRuntimeURL: '',
-    vueServerRendererURL: ''
+    vueServerRendererURL: '',
   })
 
   const bultinImportMap = $computed<ImportMap>(() => genImportMap(versions))
@@ -67,7 +67,7 @@ export const useStore = (initial: Initial) => {
   // eslint-disable-next-line no-console
   console.log('Files:', files, 'Options:', userOptions)
 
-  const store: Store = reactive({
+  const store = reactive({
     state,
     compiler: $$(compiler),
     setActive,
@@ -77,7 +77,7 @@ export const useStore = (initial: Initial) => {
     getImportMap,
     initialShowOutput: false,
     initialOutputMode: 'preview',
-  })
+  }) as Store
 
   watch(
     $$(importMap),
@@ -90,6 +90,7 @@ export const useStore = (initial: Initial) => {
     },
     { immediate: true, deep: true }
   )
+
   watch(
     () => versions.arco,
     (version) => {
@@ -127,6 +128,7 @@ export const useStore = (initial: Initial) => {
 
     watchEffect(() => compileFile(store, state.activeFile))
 
+    // eslint-disable-next-line no-restricted-syntax
     for (const file in state.files) {
       compileFile(store, state.files[file])
     }
