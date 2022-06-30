@@ -6,6 +6,8 @@
 
 🥳 [look here](https://arco-vue-playground.netlify.app)
 
+!only chinese network **服务和资源均在国外(免费的)，国内网络预计延迟2~3s(仅首次加载)，请等待一下🤪**
+
 ## supports
 
 - vue3

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Repl } from '@vue/repl'
-import { Message } from '@arco-design/web-vue'
+import { Message, Notification } from '@arco-design/web-vue'
 import Header from '@/components/Header.vue'
 import { type UserOptions, useStore } from '@/composables/store'
 import type { BuiltInParserName } from 'prettier'
@@ -23,7 +23,13 @@ const store = useStore({
   userOptions: initialUserOptions,
 })
 
-store.init().then(() => (loading = false))
+const tipMsg = () => {
+  Message.info({
+    content: '服务和资源均在国外(免费的)，国内网络预计延迟2~3s(仅首次加载)，请等待一下🤪',
+  })
+}
+
+store.init().then(() => { loading = false; tipMsg() })
 
 // eslint-disable-next-line no-console
 console.log('Store:', store)
