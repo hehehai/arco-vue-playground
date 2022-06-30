@@ -74,13 +74,7 @@ async function copyLink() {
     <a-space class="links">
       <a-space v-for="(v, key) of versions" :key="key">
         <span class="label">{{ v.text }} Version:</span>
-        <a-select
-          :model-value="v.active"
-          class="!w-30"
-          size="small"
-          fit-input-width
-          @change="setVersion(key, $event)"
-        >
+        <a-select :model-value="v.active" class="!w-30" size="small" fit-input-width @change="setVersion(key, $event)">
           <a-option v-for="ver of v.published" :key="ver" :value="ver">
             {{ ver }}
           </a-option>
@@ -94,11 +88,7 @@ async function copyLink() {
       </a-tooltip>
 
       <a-tooltip content="Vue 官网">
-        <a-link
-          class="link-icon"
-          href="https://staging-cn.vuejs.org/"
-          target="_blank"
-        >
+        <a-link class="link-icon" href="https://staging-cn.vuejs.org/" target="_blank">
           <img alt="vue" src="../assets/vue-icon.svg" />
         </a-link>
       </a-tooltip>
@@ -117,11 +107,7 @@ async function copyLink() {
       </a-tooltip>
 
       <a-tooltip content="查看源码">
-        <a-link
-          class="link-icon"
-          href="https://github.com/hehehai/arco-vue-playground"
-          target="_blank"
-        >
+        <a-link class="link-icon" href="https://github.com/hehehai/arco-vue-playground" target="_blank">
           <icon-github />
         </a-link>
       </a-tooltip>
@@ -135,7 +121,7 @@ async function copyLink() {
   z-index: 999;
   display: flex;
   justify-content: space-between;
-  height: 56px;
+  height: 52px;
   padding-left: 10px;
   padding-right: 10px;
   border-bottom: 1px solid var(--color-border);

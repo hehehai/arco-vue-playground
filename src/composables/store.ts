@@ -45,6 +45,7 @@ export const useStore = (initial: Initial) => {
     activeFile: files[APP_FILE],
     errors: [],
     vueRuntimeURL: '',
+    vueServerRendererURL: ''
   })
 
   const bultinImportMap = $computed<ImportMap>(() => genImportMap(versions))
@@ -71,6 +72,7 @@ export const useStore = (initial: Initial) => {
     compiler: $$(compiler),
     setActive,
     addFile,
+    init,
     deleteFile,
     getImportMap,
     initialShowOutput: false,
@@ -123,11 +125,11 @@ export const useStore = (initial: Initial) => {
   async function init() {
     await setVueVersion(versions.vue)
 
-    for (const file of Object.values(state.files)) {
-      compileFile(store, file)
-    }
-
     watchEffect(() => compileFile(store, state.activeFile))
+
+    for (const file in state.files) {
+      compileFile(store, state.files[file])
+    }
   }
 
   function getFiles() {

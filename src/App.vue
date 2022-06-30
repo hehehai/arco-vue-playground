@@ -46,7 +46,7 @@ let loadedFormat = false
 const formatCode = async () => {
   let close: Fn | undefined
   if (!loadedFormat) {
-    ;({ close } = Message.info({
+    ; ({ close } = Message.info({
       content: 'Loading Prettier...',
       duration: 0,
     }))
@@ -93,17 +93,10 @@ watchEffect(() => history.replaceState({}, '', `#${store.serialize()}`))
 <template>
   <div class="antialiased">
     <Header :store="store" />
-    <a-spin :loading="loading" tip="Loading ..." class="w-full">
-      <Repl
-        ref="repl"
-        :store="store"
-        show-compile-output
-        auto-resize
-        :sfc-options="sfcOptions"
-        :clear-console="false"
-        :show-import-map="store.userOptions.value.showHidden || false"
-        @keydown="handleKeydown"
-      />
+    <LayoutSkeleton />
+    <a-spin :loading="loading" tip="Loading ..." class="loading-wrapper">
+      <Repl v-if="!loading" ref="repl" :store="store" auto-resize :sfc-options="sfcOptions" :clear-console="false"
+        :show-import-map="store.userOptions.value.showHidden || false" @keydown="handleKeydown" />
     </a-spin>
   </div>
 </template>
@@ -128,7 +121,8 @@ body {
   --color-branding-dark: rgb(var(--primary-6)) !important;
 }
 
-.loading {
-  height: 100vh;
+.loading-wrapper {
+  width: 100%;
+  height: calc(100vh - var(--nav-height));
 }
 </style>
