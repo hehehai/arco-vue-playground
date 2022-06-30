@@ -108,11 +108,11 @@ body {
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   margin: 0;
   --base: #444;
-  --nav-height: 50px;
+  --nav-height: 52px;
 }
 
 .vue-repl {
-  height: calc(100vh - var(--nav-height));
+  height: calc(100vh - var(--nav-height) - 1px);
 }
 
 .dark .vue-repl,
@@ -123,6 +123,6 @@ body {
 
 .loading-wrapper {
   width: 100%;
-  height: calc(100vh - var(--nav-height));
+  min-height: calc(100vh - var(--nav-height) - 1px);
 }
 </style>

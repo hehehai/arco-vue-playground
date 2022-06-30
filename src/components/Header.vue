@@ -121,7 +121,7 @@ async function copyLink() {
   z-index: 999;
   display: flex;
   justify-content: space-between;
-  height: 52px;
+  height: var(--nav-height);
   padding-left: 10px;
   padding-right: 10px;
   border-bottom: 1px solid var(--color-border);
@@ -150,5 +150,29 @@ async function copyLink() {
 .link-icon img {
   width: 20px;
   height: 20px;
+}
+
+@media (max-width: 720px) {
+  .header-nav {
+    height: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .logo {
+    margin: 12px 0;
+  }
+
+  .links {
+    margin-bottom: 12px;
+  }
+
+  .links .label {
+    font-size: 12px;
+  }
+
+  .link-icon {
+    display: none;
+  }
 }
 </style>
