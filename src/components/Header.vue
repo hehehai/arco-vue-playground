@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Message } from '@arco-design/web-vue'
 import {
-  getSupportedEpVersions,
+  getSupportedArcoVersions,
   getSupportedVueVersions,
 } from '../utils/dependency'
 import LogoArco from '../assets/logo-arco-design.svg'
@@ -42,7 +42,7 @@ const logoSVG = computed(() => {
 const versions = reactive<Record<VersionKey, Version>>({
   arco: {
     text: 'Arco Vue',
-    published: getSupportedEpVersions(),
+    published: getSupportedArcoVersions(),
     active: store.versions.arco,
   },
   vue: {

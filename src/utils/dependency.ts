@@ -174,14 +174,23 @@ export const getVersions = (pkg: MaybeRef<string>) => {
 
 export const getSupportedVueVersions = () => {
   const versions = $(getVersions('vue'))
-  return computed(() =>
-    versions.filter((version) => compare(version, '3.2.0', '>='))
+  return computed(() => {
+    const canUserVersions = versions.filter((version) => compare(version, '3.2.0', '>='))
+    if (canUserVersions.length) {
+      canUserVersions.unshift('latest')
+    }
+    return canUserVersions
+  }
   )
 }
 
-export const getSupportedEpVersions = () => {
+export const getSupportedArcoVersions = () => {
   const versions = $(getVersions('@arco-design/web-vue'))
   return computed(() => {
-    return versions.filter((version) => compare(version, '2.0.0', '>='))
+    const canUserVersions = versions.filter((version) => compare(version, '2.28.0', '>='))
+    if (canUserVersions.length) {
+      canUserVersions.unshift('latest')
+    }
+    return canUserVersions
   })
 }
