@@ -15,6 +15,8 @@
 - typescript
 - auto import arco and arco-icon
 - code prettier
+- defineModel
+- reactivityTransform
 
 > ‼️ arco-vue version support >= 2.28.0
 

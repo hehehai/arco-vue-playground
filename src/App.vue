@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Repl } from '@vue/repl'
+import Monaco from '@vue/repl/monaco-editor'
 import { Message } from '@arco-design/web-vue'
 import Header from '@/components/Header.vue'
 import { type UserOptions, type Versions, useStore } from '@/composables/store'
@@ -7,12 +8,13 @@ import type { BuiltInParserName } from 'prettier'
 import type { SFCOptions } from '@vue/repl'
 import type { Fn } from '@vueuse/core'
 
-let loading = $ref(true)
+const loading = ref(true)
 
 // enable experimental features
 const sfcOptions: SFCOptions = {
   script: {
     reactivityTransform: true,
+    defineModel: true,
   },
 }
 
@@ -39,7 +41,7 @@ const tipMsg = () => {
 }
 
 store.init().then(() => {
-  loading = false
+  loading.value = false
   tipMsg()
 })
 
@@ -64,7 +66,7 @@ let loadedFormat = false
 const formatCode = async () => {
   let close: Fn | undefined
   if (!loadedFormat) {
-    ; ({ close } = Message.info({
+    ;({ close } = Message.info({
       content: 'Loading Prettier...',
       duration: 0,
     }))
@@ -94,7 +96,7 @@ const formatCode = async () => {
   } else {
     return
   }
-  file.code = format(file.code, {
+  file.code = await format(file.code, {
     parser,
     plugins: [parserHtml, parserTypeScript, parserBabel, parserPostcss],
     semi: false,
@@ -113,8 +115,19 @@ watchEffect(() => history.replaceState({}, '', `#${store.serialize()}`))
     <Header :store="store" />
     <LayoutSkeleton />
     <a-spin :loading="loading" tip="Loading ..." class="loading-wrapper">
-      <Repl v-if="!loading" ref="repl" :store="store" auto-resize :sfc-options="sfcOptions" :clear-console="false"
-        :show-import-map="store.userOptions.value.showHidden || false" @keydown="handleKeydown" />
+      <Repl
+        v-if="!loading"
+        ref="repl"
+        class="play-repl"
+        :editor="Monaco"
+        :store="store"
+        auto-resize
+        :sfc-options="sfcOptions"
+        :clear-console="false"
+        show-compile-output
+        :show-import-map="store.userOptions.showHidden || false"
+        @keydown="handleKeydown"
+      />
     </a-spin>
   </div>
 </template>
@@ -129,12 +142,12 @@ body {
   --nav-height: 52px;
 }
 
-.vue-repl {
+.antialiased .play-repl {
   height: calc(100vh - var(--nav-height) - 1px);
 }
 
-.dark .vue-repl,
-.vue-repl {
+.dark .play-repl,
+.play-repl {
   --color-branding: rgb(var(--primary-6)) !important;
   --color-branding-dark: rgb(var(--primary-6)) !important;
 }

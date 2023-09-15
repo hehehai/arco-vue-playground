@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 import { defineConfig } from 'vite'
 import Unocss from 'unocss/vite'
 import { presetUno } from 'unocss'
@@ -13,8 +13,9 @@ import pkg from './package.json'
 
 const pathSrc = path.resolve(__dirname, 'src')
 
-export default defineConfig(async ({ mode }) => {
+export default defineConfig(async () => {
   const repl = await getPackageInfo('@vue/repl')
+
   return {
     resolve: {
       alias: {
@@ -25,14 +26,16 @@ export default defineConfig(async ({ mode }) => {
       'import.meta.env.APP_VERSION': JSON.stringify(pkg.version),
       'import.meta.env.REPL_VERSION': JSON.stringify(repl!.version),
     },
+    build: {
+      rollupOptions: {
+        external: ['typescript'],
+      },
+    },
     server: {
       https: true,
-      host: true,
     },
     plugins: [
-      vue({
-        reactivityTransform: true,
-      }),
+      vue(),
       AutoImport({
         imports: ['vue', '@vueuse/core'],
         resolvers: [ArcoResolver({ resolveIcons: true })],
@@ -45,8 +48,11 @@ export default defineConfig(async ({ mode }) => {
       Unocss({
         presets: [presetUno()],
       }),
-      mode === 'production' ? Mkcert() : undefined,
+      Mkcert(),
       Inspect(),
     ],
+    optimizeDeps: {
+      exclude: ['@vue/repl'],
+    },
   }
 })
