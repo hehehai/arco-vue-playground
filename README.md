@@ -2,9 +2,7 @@
 
 ![site-screenshot](./doc/site-screenshot.png)
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/2051d1bc-3eae-4b90-a3c0-c46762a8a8f1/deploy-status)](https://app.netlify.com/sites/arco-vue-playground/deploys)
-
-🥳 [look here](https://arco-vue-playground.netlify.app)
+🥳 [look here](https://arco-vue-playground.vercel.app)
 
 !only chinese network **服务和资源均在国外(免费的)，国内网络预计延迟2~3s(仅首次加载)，请等待一下🤪**
 
