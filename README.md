@@ -20,6 +20,18 @@
 
 tip: repl support prettier code use keyboard [mac] `Control + Shift + f`, [win] `Ctrl + Shift + f`
 
+## run
+
+with [bun](https://bun.sh/)
+
+```cmd
+bun i
+bun dev
+
+# or
+bun preview
+```
+
 ## project
 
 - [vue3](https://staging-cn.vuejs.org/)
