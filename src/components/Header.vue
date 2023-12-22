@@ -8,6 +8,7 @@ import LogoArco from '../assets/logo-arco-design.svg'
 import LogoArcoDark from '../assets/logo-arco-design-dark.svg'
 import type { ComputedRef } from 'vue'
 import type { ReplStore, VersionKey } from '@/composables/store'
+import { appDark, toggleDark } from '@/composables/dark'
 
 const { store } = defineProps<{
   store: ReplStore
@@ -17,22 +18,6 @@ interface Version {
   text: string
   published: ComputedRef<string[]>
   active: string
-}
-
-const appDark = useDark({
-  selector: 'body',
-  attribute: 'arco-theme',
-  valueDark: 'dark',
-  valueLight: 'light',
-  storageKey: 'arco-theme',
-})
-const replDark = useDark()
-const toggleAppTheme = useToggle(appDark)
-const toggleReplTheme = useToggle(replDark)
-
-const toggleTheme = () => {
-  toggleAppTheme()
-  toggleReplTheme()
 }
 
 const logoSVG = computed(() => {
@@ -96,7 +81,7 @@ async function copyLink() {
       </a-tooltip>
 
       <a-tooltip content="明暗切换">
-        <a-link class="link-icon" @click.prevent="toggleTheme()">
+        <a-link class="link-icon" @click.prevent="toggleDark()">
           <icon-moon-fill v-if="appDark" />
           <icon-sun-fill v-else />
         </a-link>
