@@ -7,6 +7,7 @@ import { type UserOptions, type Versions, useStore } from '@/composables/store'
 import type { BuiltInParserName } from 'prettier'
 import type { SFCOptions } from '@vue/repl'
 import type { Fn } from '@vueuse/core'
+import { theme } from './composables/dark'
 
 const loading = ref(true)
 
@@ -104,8 +105,6 @@ const formatCode = async () => {
   })
 }
 
-useDark()
-
 // persist state
 watchEffect(() => history.replaceState({}, '', `#${store.serialize()}`))
 </script>
@@ -113,7 +112,6 @@ watchEffect(() => history.replaceState({}, '', `#${store.serialize()}`))
 <template>
   <div class="antialiased">
     <Header :store="store" />
-    <LayoutSkeleton />
     <a-spin :loading="loading" tip="Loading ..." class="loading-wrapper">
       <Repl
         v-if="!loading"
@@ -121,6 +119,7 @@ watchEffect(() => history.replaceState({}, '', `#${store.serialize()}`))
         class="play-repl"
         :editor="Monaco"
         :store="store"
+        :theme="theme"
         auto-resize
         :sfc-options="sfcOptions"
         :clear-console="false"
